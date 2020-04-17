@@ -1,0 +1,252 @@
+---
+swagger: "2.0"
+info:
+  description: "Api Documentation"
+  version: "1.0"
+  title: "Api Documentation"
+  termsOfService: "urn:tos"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0"
+host: "ha1cxrxxtl.execute-api.us-east-1.amazonaws.com"
+basePath: "/prod"
+tags:
+- name: "basic-error-controller"
+  description: "Basic Error Controller"
+- name: "inter-stellar-controller"
+  description: "Inter Stellar Controller"
+schemes:
+- "https"
+paths:
+  /interstellar/planet:
+    get:
+      tags:
+      - "inter-stellar-controller"
+      summary: "getAllPlanets"
+      operationId: "getAllPlanetsUsingGET"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ArrayOfPlanet"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+    post:
+      tags:
+      - "inter-stellar-controller"
+      summary: "addPlanet"
+      operationId: "addPlanetUsingPOST"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Planet"
+        description: "planet"
+        required: true
+        schema:
+          $ref: "#/definitions/Planet"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Planet"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+  /interstellar/route:
+    get:
+      tags:
+      - "inter-stellar-controller"
+      summary: "getAllRutes"
+      operationId: "getAllRutesUsingGET"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ArrayOfRoute"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+    post:
+      tags:
+      - "inter-stellar-controller"
+      summary: "addRoute"
+      operationId: "addRouteUsingPOST"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "distance"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "destination.id"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "source.id"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "destination.name"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "id"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "source.name"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ArrayOfRoute"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        201:
+          description: "Created"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+  /interstellar/route/shortest:
+    get:
+      tags:
+      - "inter-stellar-controller"
+      summary: "getShortestRouteFromEarth"
+      operationId: "getShortestRouteFromEarthUsingGET"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "planetB"
+        in: "query"
+        description: "planetB"
+        required: true
+        type: "string"
+      - name: "planetA"
+        in: "query"
+        description: "planetA"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ArrayOfRoute"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+        401:
+          description: "Unauthorized"
+        403:
+          description: "Forbidden"
+        404:
+          description: "Not Found"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+definitions:
+  ArrayOfPlanet:
+    type: "array"
+    items:
+      $ref: "#/definitions/Planet"
+  Planet:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+    title: "Planet"
+  ArrayOfRoute:
+    type: "array"
+    items:
+      $ref: "#/definitions/Route"
+  Route:
+    type: "object"
+    properties:
+      destination:
+        $ref: "#/definitions/Planet"
+      distance:
+        type: "number"
+        format: "float"
+      id:
+        type: "string"
+      source:
+        $ref: "#/definitions/Planet"
+    title: "Route"
